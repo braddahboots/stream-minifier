@@ -1,4 +1,3 @@
-
 var fs = require('fs');
 var util = require('util').inherits;
 var Transform = require('stream').Transform;
@@ -20,12 +19,12 @@ util(minify, Transform);
 
 //method on new instances of minify class
 minify.prototype._transform = function(chunk, encoding, done) {
-  chunk = chunk.replace('/[\n\r]+/g').toString('');
-  console.log(chunk);
-  // this.push(chunk);
+  chunk = chunk.toString().replace(/(\r\n|\n|\r)/gm,"").replace(/\s+/g,"");
+  this.push(chunk);
   done();
 };
 
+//create a new instance of minfiy class on the write output
 read.pipe(new minify()).pipe(write);
 
 
